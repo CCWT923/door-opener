@@ -35,7 +35,7 @@ docker build -t door-opener:latest .
 ```Bash
 docker run -d \
   --name door-opener-app \
-  -p 8089:8089 \
+  -p 8089:8000 \
   --env-file .env \
   --restart always \
   door-opener:latest
