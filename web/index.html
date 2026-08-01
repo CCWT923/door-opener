@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="./index.css" />
+    <script type="module" src="./index.js"></script>
+    <title>智能门禁控制</title>
+</head>
+<body>
+
+<div class="main-container">
+    <h1>远程门禁控制中心</h1>
+    
+    <div id="door-list" class="door-list"></div>
+
+    <div id="status-box"></div>
+</div>
+<footer class="footer">
+    <p>Designed & Developed by <strong>CCWT</strong></p>
+    <p class="date">date: 2026-07-28</p>
+</footer>
+<dialog id="dialog-login" class="dialog-login">
+    <form id="form-login" class="login-form">
+        <div class="input-tip">请输入密码：</div>
+        <input name="password" type="password" required />
+        <div class="dialog-footer">
+            <button type="submit">登录</button>
+        </div>
+    </form>
+</dialog>
+</body>
+</html>

@@ -1,0 +1,412 @@
+/* 全局基础重置与背景 */
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-sub: #64748b;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --shadow-hover: 0 20px 25px -5px rgba(37, 99, 235, 0.1), 0 8px 10px -6px rgba(37, 99, 235, 0.04);
+}
+
+body {
+  margin: 0;
+  padding: 0 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+/* 主容器 */
+.main-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 10px 40px 20px;
+  padding: 24px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow-md);
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 0;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h1::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 24px;
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+/* 门禁卡片网格 */
+.door-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+/* 门禁卡片基础布局优化 */
+.door {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 5px solid var(--door-color, #2563eb); /* 左侧彩色指示条 */
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 卡片悬浮与背景氛围渐变 */
+.door::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle at top right, var(--door-bg-glow, rgba(37, 99, 235, 0.08)), transparent 70%);
+  pointer-events: none;
+}
+
+.door:hover {
+  transform: translateY(-4px);
+  border-color: var(--door-border-hover, #bfdbfe);
+  box-shadow: 0 12px 20px -5px var(--door-shadow, rgba(37, 99, 235, 0.15));
+}
+
+/* 标题样式强化：带色块背景的微型 Icon */
+.door-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.door-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: var(--door-bg-glow, rgba(37, 99, 235, 0.1));
+  color: var(--door-color, #2563eb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.door h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main);
+}
+
+/* 预设几种门禁主题颜色类 */
+.door.theme-blue {
+  --door-color: #2563eb;
+  --door-bg-glow: rgba(37, 99, 235, 0.12);
+  --door-border-hover: #93c5fd;
+  --door-shadow: rgba(37, 99, 235, 0.15);
+}
+
+.door.theme-purple {
+  --door-color: #7c3aed;
+  --door-bg-glow: rgba(124, 58, 237, 0.12);
+  --door-border-hover: #c4b5fd;
+  --door-shadow: rgba(124, 58, 237, 0.15);
+}
+
+.door.theme-amber {
+  --door-color: #d97706;
+  --door-bg-glow: rgba(217, 119, 6, 0.12);
+  --door-border-hover: #fde68a;
+  --door-shadow: rgba(217, 119, 6, 0.15);
+}
+
+.door.theme-emerald {
+  --door-color: #059669;
+  --door-bg-glow: rgba(5, 150, 105, 0.12);
+  --door-border-hover: #a7f3d0;
+  --door-shadow: rgba(5, 150, 105, 0.15);
+}
+
+/* 按钮颜色继承卡片主题色 */
+.door .unlock-btn {
+  background-color: var(--door-color, #2563eb);
+}
+
+.door .unlock-btn:hover {
+  filter: brightness(0.9);
+}
+
+/* IP 地址样式 */
+.door p {
+  margin: 0 0 6px 0;
+  font-size: 0.875rem;
+  color: var(--text-sub);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.door p::before {
+  content: "🌐";
+  font-size: 0.8rem;
+}
+
+/* SN 码标签化 */
+.door .sn {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  background-color: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  word-break: break-all;
+  margin-bottom: 16px;
+}
+
+/* 动态生成的开锁按钮 */
+.door .unlock-btn {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.door .unlock-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.door .unlock-btn:active {
+  transform: scale(0.98);
+}
+
+
+/* 让 header 内部左右对齐：左边是图标+标题，右边是状态徽章 */
+.door-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* 标题自动撑开剩余空间，把 badge 推到最右侧 */
+.door-header h2 {
+  flex: 1; 
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main);
+}
+
+/* 状态徽章容器：胶囊样式 */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+/* 状态 LED 圆点基础配置 */
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+/* 🟡 检测中样式 */
+.status-badge.checking {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+.status-badge.checking .status-dot {
+  background-color: #f59e0b;
+}
+
+/* 🟢 在线样式 (带微光呼吸动画) */
+.status-badge.online {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+.status-badge.online .status-dot {
+  background-color: #22c55e;
+}
+/* 在线呼吸光晕 */
+.status-badge.online .status-dot::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  opacity: 0.6;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 🔴 离线样式 */
+.status-badge.offline {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+.status-badge.offline .status-dot {
+  background-color: #ef4444;
+}
+
+/* 呼吸灯动画 */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+
+/* 底部状态提示框 */
+#status-box {
+  min-height: 20px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  display: none; /* 默认隐藏，有内容时显示 */
+  transition: all 0.3s ease;
+}
+
+#status-box.show {
+  display: block;
+}
+
+#status-box.success {
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+#status-box.warning {
+  background-color: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+#status-box.error {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* 底部 Footer 样式 */
+.footer {
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.footer p {
+  margin: 4px 0;
+}
+
+.footer strong {
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.footer .date {
+  font-size: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: #cbd5e1;
+}
+
+.dialog-login{
+  width: 600px;
+  max-width: 80%;
+  padding: 24px;
+  border: none;
+}
+
+.login-form{
+  width: 100%;
+}
+
+.input-tip{
+  line-height: 1em;
+  color: #555;
+  font-size: 14px;
+}
+
+.dialog-login input{
+  width: 100%;
+  padding: 8px 0;
+  border: 1px solid #EEE;
+  margin: 12px 0 24px 0;
+  border-radius: 4px;
+}
+
+
+.dialog-footer{
+  width: 100%;
+  text-align: center;
+}
+
+.dialog-login button{
+  padding: 12px 24px;
+  min-width: 120px;
+  background-color:#0e2e85;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.dialog-login::backdrop{
+  background-color: rgba(0,0,0, 0.6);
+}
