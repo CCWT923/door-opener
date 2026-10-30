@@ -1,3 +1,5 @@
+const API_PATH = "/door-opener/api";
+
 async function request(url, method = "GET"){
     const token = localStorage.getItem("door_session_token");
     const result = await fetch(url, {
@@ -11,7 +13,10 @@ async function request(url, method = "GET"){
         showLoginDialog();
         throw new Error("未登录")
     }
-    return await result.json();
+
+    const text = await result.text();
+    console.log("原始响应：", text);
+    return JSON.parse(text);
 }
 
 function showLoginDialog(){
@@ -21,7 +26,7 @@ function showLoginDialog(){
 
 async function login(password){
     try{
-        const res = await fetch("/api/login", {
+        const res = await fetch(`${API_PATH}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ password })
@@ -52,26 +57,33 @@ async function getDoors(){
         e.preventDefault();
         login(e.target["password"].value);
     });
-    const data = await request("/doors", "GET");
-    console.log("门锁列表：", data);
-    renderDoors(data);
-    document.getElementById("door-list").addEventListener("click", async (e)=>{
-        const target = e.target.closest(".unlock-btn");
-        if(target){
-            const door = target.closest(".door");
-            await openDoor(door.dataset.id)
+    try{
+        const data = await request(`${API_PATH}/doors`, "GET");
+        console.log("门锁列表：", data);
+        renderDoors(data);
+        document.getElementById("door-list").addEventListener("click", async (e)=>{
+            const target = e.target.closest(".unlock-btn");
+            if(target){
+                const door = target.closest(".door");
+                await openDoor(door.dataset.id);
+            }
+        });
+        const status = await getDoorStatus();
+        if(status){
+            updateDoorsStatus(status);
         }
-    });
-    const status = await getDoorStatus();
-    if(status){
-        updateDoorsStatus(status);
+    }catch(err){
+        alert("获取门禁列表失败");
+        console.error("获取门禁列表失败：", err);
     }
+    
+    
 }
 
 async function getDoorStatus(){
 
     try{
-        const data = await request("/doors/status", "GET");
+        const data = await request(`${API_PATH}/doors/status`, "GET");
         return data;
     }catch(err){
         showStatus("获取状态失败：" + err, "error");
@@ -86,7 +98,7 @@ async function openDoor(doorId) {
 
     try {
         // 发送 POST 请求到 FastAPI 后台
-        const data = await request(`/unlock/${doorId}`, "POST");
+        const data = await request(`${API_PATH}/unlock/${doorId}`, "POST");
         if (data.ok && data.status === "success") {
             showStatus(data.message, "success");
         } else {
